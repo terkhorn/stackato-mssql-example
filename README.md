@@ -117,11 +117,11 @@ Now let's tunnel into the MSSQL instance and make a table that we can read and w
 	1>
 
 
-You can use the displayed connection information to connect via SQL Management Studio (use SQL Server Auth). Just use localhost,10000 as the “Server name”. Be sure to start the tunnel first and keep it open during the time you’re using Management Studio. Quitting sqlcmd will close the tunnel.
+You can use the displayed connection information to connect via SQL Management Studio (use SQL Server Auth). Just use localhost,10000 as the ï¿½Server nameï¿½. Be sure to start the tunnel first and keep it open during the time youï¿½re using Management Studio. Quitting sqlcmd will close the tunnel.
 
 Refs:
 
-    http://www.activestate.com/blog/2012/07/how-deploy-net-apps-stackato-20  -- How to deploy .NET apps to stackato
-    http://blog.cloudfoundry.com/2011/11/17/now-you-can-tunnel-into-any-cloud-foundry-data-service/ -- Tunnel to MSSQL in stackato
-    http://blog.ironfoundry.org/2012/04/caldecott-with-ms-sql-server/ -- More on getting MSSQL up and running / tunnelling to it in stackato
+* http://www.activestate.com/blog/2012/07/how-deploy-net-apps-stackato-20  -- How to deploy .NET apps to stackato
+* http://blog.cloudfoundry.com/2011/11/17/now-you-can-tunnel-into-any-cloud-foundry-data-service/ -- Tunnel to MSSQL in stackato
+* http://blog.ironfoundry.org/2012/04/caldecott-with-ms-sql-server/ -- More on getting MSSQL up and running / tunnelling to it in stackato
     
