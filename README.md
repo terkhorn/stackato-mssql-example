@@ -77,7 +77,7 @@ Check that the Web.config for our deployed app has a connection string for our M
 
 You should now be able to do 'stackato update HelloStackato' (no need to re-bind the MSSQL service), hit the URL of the app, and see that the connection is in an 'open' state.
 
-Now let's tunnel into the MSSQL instance and make a table that we can read and write to...
+Now let's tunnel into the MSSQL instance and make a table that we can read and write to. Note that the name of your MSSQL instance will differ from what's written below.
 
     $ vmc tunnel mssql-a450e sqlcmd
 
@@ -95,10 +95,10 @@ Now let's tunnel into the MSSQL instance and make a table that we can read and w
 	Service connection info:
 	  username : <username>
 	  password : <pass>
-	  name     : <instanceName>
+	  name     : d42132a56a2994213ba479990595fbac7
 	
 	Starting tunnel to mssql-a450e on port 10000.
-	Launching 'sqlcmd -S localhost,10000 -U <username> -P <pass> -d <instanceName>'
+	Launching 'sqlcmd -S localhost,10000 -U <username> -P <pass> -d d42132a56a2994213ba479990595fbac7'
 	
 	1> select @@IDENTITY;
 	2> GO
@@ -118,6 +118,8 @@ Now let's tunnel into the MSSQL instance and make a table that we can read and w
 
 
 You can use the displayed connection information to connect via SQL Management Studio (use SQL Server Auth). Just use localhost,10000 as the �Server name�. Be sure to start the tunnel first and keep it open during the time you�re using Management Studio. Quitting sqlcmd will close the tunnel.
+
+At this point, you should then be able to run table.sql either through SQLCMD, or via SSMS.  This will create the table necessary for our example to work.  Note that you need to update the 'Use d42132a56a2994213ba479990595fbac7' in table.sql to reflect the MSSQL instance name given when you provisioned your own instance.
 
 Refs:
 
