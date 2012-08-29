@@ -11,22 +11,17 @@ namespace HelloStackato
 {
     public partial class HelloPage : Page
     {
-        private string ConnString { get; set; }
-
         private string GetConnString()
         {
-            System.Configuration.Configuration rootWebConfig =
-    System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/HelloStackato");
-            System.Configuration.ConnectionStringSettings connString;
+            var rootWebConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/HelloStackato");
             if (rootWebConfig.ConnectionStrings.ConnectionStrings.Count > 0)
             {
-                connString =
-                    rootWebConfig.ConnectionStrings.ConnectionStrings["Default"];
-                if (connString != null)
+                var connectionStringSettings = rootWebConfig.ConnectionStrings.ConnectionStrings["Default"];
+                if (connectionStringSettings != null)
                 {
-                    return connString.ConnectionString;
+                    return connectionStringSettings.ConnectionString;
                 }
-                
+
                 throw new Exception("No Default connection string");
             }
 
@@ -35,16 +30,28 @@ namespace HelloStackato
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            ConnString = GetConnString();
-            databaseInfo.Text = OpenSqlConnection(ConnString);
+            databaseInfo.Text = ExecuteSQLStatements(GetConnString());
         }
 
-        private static string OpenSqlConnection(string connectionString)
+        private static string ExecuteSQLStatements(string connectionString)
         {
+            string insertSQL =
+                string.Format(
+                    @"INSERT INTO dbo.Sample (Text) VALUES ('Hello at {0} UTC');
+                                         SELECT CAST(scope_identity() AS int)",
+                    DateTime.UtcNow);
+
             using (var connection = new SqlConnection(connectionString))
             {
+                var insertCmd = new SqlCommand(insertSQL, connection);
                 connection.Open();
-                return string.Format("Current dir -- {2} -- ServerVersion: {0} -- State: {1}", connection.ServerVersion, connection.State, Directory.GetCurrentDirectory());
+                var resultID = (Int32) insertCmd.ExecuteScalar();
+
+                string selectSQL = string.Format(@"SELECT Text FROM dbo.Sample WHERE ID = {0}", resultID);
+
+                var selectCmd = new SqlCommand(selectSQL, connection);
+
+                return (string) selectCmd.ExecuteScalar();
             }
         }
     }
